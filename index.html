@@ -43,7 +43,9 @@
         <p><span class="math display">\[\max TX_k \]</span></p>
 
         Por exemplo.
-        <p>Tomemos a série temporal de 2023 até 2033, para cada ano escolhemos a temperatura máxima nele e temos o índice TXx
+        <p>Tomemos a série temporal de 2023 até 2033 gerada pela equação <span class="math display">\( sin(i).p^2+e^{p}+25 \)</span>, 
+            em que p é um valor aleatório de cada iteração e i é o dia. 
+            Para cada ano escolhemos a temperatura máxima nele e temos o índice TXx
             que denota a temperatura máxima obtida da série de temperaturas máximas</p>
 
         <iframe src="./imagens/TXx_year.html" width="900" height="400" frameborder="0"></iframe>
@@ -58,12 +60,12 @@
 
         <pre>
         <code class="python"> 
-            a = ['f','d','s','a']
-            x = -1
-            scope = vars()
-            for i in a:
-                scope['x']+=1
-                print (a[x])
+            from AgenciBr import Indice as ind
+            #x é o vetor com dias
+            #y é o vetor TX
+
+            #Calcula os índices extremos, salva os dias em xf e os valores em yf
+            xf, yf = ind.tx(x, y, with_x=True)
         </code>
     </pre>
         
