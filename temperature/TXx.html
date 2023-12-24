@@ -1,0 +1,37 @@
+<article id="TXx"> 
+    <h3>TXx(maximum value of daily maximum temperature)</h3>
+
+Diariamente temos a temperatura máxima registrada <strong>TX</strong> e a mínima <strong>TN</strong>, 
+de modo que nesta série diária escolhemos o máximo da temperatura máxima em um novo
+período. 
+
+Seja <span class="math display">\(TX_k\)</span>  a série de temperatura máxima separada em períodos k,
+de modo que coletamos sempre o máximo desse período
+<p><span class="math display">\[\max TX_k \]</span></p>
+
+Por exemplo.
+<p>Tomemos a série temporal de 2023 até 2033 gerada pela equação <span class="math display">\( sin(i).p^2+e^{p}+25 \)</span>, 
+    em que p é um valor aleatório de cada iteração e i é o dia. 
+    Para cada ano escolhemos a temperatura máxima nele e temos o índice TXx
+    que denota a temperatura máxima obtida da série de temperaturas máximas</p>
+
+<iframe src="./imagens/TXx_year.html" width="900" height="400" frameborder="0"></iframe>
+
+<p>Do mesmo modo conseguimos obter os dados da temperatura máxima mensal</p>
+
+<iframe src="./imagens/TXx_month.html" width="900" height="400" frameborder="0"></iframe>
+
+O mesmo exemplo pode ser feito para as máximas mensais
+
+<p> Para calcular usando python </p>
+
+<pre>
+<code class="python"> 
+    from AgenciBr import Indice as ind
+    #x é o vetor com dias
+    #y é o vetor TX
+
+    #Calcula os índices extremos, salva os dias em xf e os valores em yf
+    xf, yf = ind.tx(x, y, with_x=True)
+</code>
+</pre>
