@@ -1,4 +1,62 @@
-<article id="TNx">
-    <h3> Maximum value of daily minimum temperature </h3>
+<!DOCTYPE html>
+<html lang="en">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TXx</title>
+</head>
+<body>
+    <article id="TNx"> 
+        <h3>TNx(Valor máximo da temperatura mínima diária)</h3>
+    
+    Diariamente temos a temperatura máxima registrada <strong>TX</strong> e a mínima <strong>TN</strong>, 
+    de modo que nesta série diária escolhemos o máximo da temperatura mínima em um novo
+    período. 
+    
+    Seja <span class="math display">\({TN_k}\)</span>  a série de temperatura mínima separada em períodos k,
+    de modo que coletamos sempre o máximo desse período, sendo normalmente este período em anos.
+    <p><span class="math display">\[\max {TN_k} \]</span></p>
+    
+    Por exemplo.
+    <p>Tomemos a série temporal de 1961 até 1990, não incluindo este último ano, e o período variando de ano em ano.
+        Assim, veremos os máximos anuais
+    </p>
+    
+    <iframe src="./imagens/TNx_anual.html" width="900" height="400" frameborder="0"></iframe>
+    
+    <p>Do mesmo modo conseguimos obter os dados da temperatura máxima mensal</p>
+    
+    <iframe src="./imagens/TNx_mensal.html" width="900" height="400" frameborder="0"></iframe>
+    
+    
+    <p> Para calcular usando python </p>
+    
+    <pre>
+    <code class="python"> 
+        from AgenciBr import Indice as ind
+        #x é o array com as datas
+        #y é o vetor TX
+    
+        #Calcula os índices extremos, salva os dias em xf e os valores em yf
+        xf, yf = ind.tn(x, y, with_x=True)
+    </code>
+    </pre>
 
-</article>
+    <p> Para calcular usando o CDO </p>
+
+    <pre>
+        <code class="shell">
+            #Seja infile.nc o dataframe com a temperatura máxima diária
+
+            cdo yearsum infile.nc outfile.nc
+        </code>
+    </pre>
+
+    </article>
+</body>
+</html>

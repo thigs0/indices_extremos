@@ -1,16 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TXx</title>
+</head>
+<body>
 <article id="TX90p">
-    <h3> Percentage of days when TX > 90th percentile </h3>
+    <h3> Porcentagem de dias em que TX > 90 percentil </h3>
 
     Quando temos uma série histórica de temperatura máxima diária e 
     queremos ter uma medida relativa dos extremos de temperatura com 
     base em um período histórico de referência(1961-1990) com uma janela de 5 dias.
     Esta medida é dada pela quantidade de dias em cada ano, acima do período de referência
     
-    Por exemplo:
+    O percentil com o uma janela é calculado com:
 
-    Coletamos os dados do xavier et al(<a href="https://utexas.app.box.com/v/Xavier-etal-IJOC-DATA/file/99389441725"> Arquivo </a>) 2001-2015 para a temperatura mínima mensal
-    .E elegemos as coordenadas de latitude=5.625 e longitude=-73.62 para o período 
-    de referência.
+    <span class="math display">
+        \begin{align} o(1, \text{ano}) = \text{pth_percentil} ~\{ i(t,x),i(t+1,x),..., i(t+k)\}\\ o(2, \text{ano}) = \text{pth_percentil} ~\{ i(t,x),i(t+1,x),..., i(t+k)\}\\ o(1, \text{ano}) = \text{pth_percentil} ~\{ i(t,x),i(t+1,x),..., i(t+k)\}\\ ......................................\\o(366, \text{ano}) = \text{pth_percentil} ~\{ i(t,x),i(t+1,x),..., i(t+k)\}\end{align}
+    </span>
+    <p></p>
+    <span class="math display">
+        \begin{align} p\in \mathbb{R}| 0\leq p\leq 100; \text{ Número do percentil desejado} \\ k\in \mathbb{N} ; \text{ Janela de dias desejados}\\ \text{o é o arquivo de saída (output)} \\ \text{i é o arquivo de entrada (input)}\end{align}
+    </span>
+
+    <p>Exemplo </p> 
+
+    <p></p>
+    Dado a série de temperatura máxima citada na página inicial, construíremos um histograma de demonstra o 
+    90 percentil dela, com a opção de modificar as subdivisões para observar o ajuste dos dados pela curva normal
+    <iframe src="./imagens/TX90p_hist.html" width="900" height="400" frameborder="0"></iframe>
+
+    <p>A curva normal acima foi construída de forma visual para demonstar o comportamento e os dados não foram
+        separados na janela de 5 dias como precisa para calcular o índice. Os códigos abaixo fazem todo esse tratamento. 
+
+    </p>
+
+    Com o dado dado do percentil 90, para cada valor de temperatura diária, verificamos se está acima ou abaixo 
+    do percentil de referencia (31.40 °c). Colocamos 1 se está acima e 0 se está abaixo.
+
+    
+
+<pre>
+    <code>
+        time             Temperatura  > 31.40
+        17744 1990-01-01  28.672290     0
+        17745 1990-01-02  29.424267     0
+        17746 1990-01-03  28.125400     0
+        17747 1990-01-04  26.553085     0
+        17748 1990-01-05  27.646870     0
+        ...          ...        ...     ...
+        14452 2020-07-27  25.835293     0
+        14453 2020-07-28  27.510147     0
+        14454 2020-07-29  27.099980     0
+        14455 2020-07-30  28.467209     0
+        14456 2020-07-31  26.621449     0
+        
+        [11170 rows x 2 columns]
+        
+    </code>
+</pre>
 
 
+<p> Deste modo, basta somarmos a quantidade de dias em que a temperatura excedeu o percentil 90 em cada ano. 
+    Para obtermos o índice TX90p
+</p>
+
+<p>
+    <pre>
+        <code class="bash">
+            #tmax.nc é o arquivo de referencia
+            cdo -ydrunpctl,90,5 tmax.nc -ydrunmin,5 tmax.nc -ydrunmax,5 tmax.nc tmax_percentile.nc
+        </code> 
+    </pre>
+</p>
 </article>
+</body>
