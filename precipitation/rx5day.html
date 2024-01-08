@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TXx</title>
+</head>
+<body>
+<article id="RX5day">
+    <h3> Maior acumulado de precipitação anual em um período de 5 dias consecutivos  </h3>
+
+    <p>
+        RX5day é definido separando o período estudado (anual, mensal, outros) em subperíodos de 5 dias 
+        e somando a precipitação de cada período. De modo a escolhermos o maior deles.
+    </p>
+    <p>
+        Este índice é normalmente associado à fenômenos de enchentes, pelo alto grau de pluviosidade 
+        concentrada em poucos dias.
+    </p>
+
+    <p>Exemplo:
+        <p>
+            Com os dados de janeiro de 1990, verificamos o índice RX5day mensal.
+        </p>
+        <p><span class="math display">
+            \begin{align} \text{time} ~~~~~~\text{precipitação}\\ 4.221957\begin{cases}1990-01-01 ~~ 0.672290\\ 1990-01-02 ~~0.424267 \\ 1990-01-03 ~~3.125400\\ 1990-01-04~~0.000000\\ 1990-01-05 ~~0.000000\end{cases}\\ 7.873981\begin{cases}1990-01-06~~2.619800\\ 1990-01-07~~1.834030\\ 1990-01-08~~0.931471\\ 1990-01-09~~0.843790\\1990-01-10~~1.643890\end{cases}\\0.000000\begin{cases}1990-01-11~~0.000000\\ 1990-01-12~~0.000000\\ 1990-01-13~~0.000000\\1990-01-14~~0.000000\\1990-01-15~~0.000000\end{cases}\\ 0.000000\begin{cases}1990-01-16~~0.000000\\ 1990-01-17~~0.000000\\ 1990-01-18~~0.000000\\1990-01-19~~0.000000\\1990-01-20~~0.000000\end{cases}\\ 0.000000\begin{cases}1990-01-21~~0.000000\\ 1990-01-22~~0.000000\\ 1990-01-23~~0.000000\\1990-01-24~~0.000000\\1990-01-25~~0.000000\end{cases}\\ 0.000000\begin{cases}1990-01-26~~0.000000\\ 1990-01-27~~0.000000\\ 1990-01-28~~0.000000\\1990-01-29~~0.000000\\1990-01-30~~0.000000\end{cases}\end{align}
+        </span></p>
+        E o RX5day para o mês de janeiro de 1990 é 7.873981
+    </p> 
+    
+    <p>
+        <pre>
+            <code class="bash">
+                #pr.nc é o arquivo de precipitação diária
+                #output.nc é o nome do aquivo de saída que o código retorna
+    
+                year=$(cdo showyear pr.nc| head -n -1)
+
+                for i in $year
+                do
+                        cdo selyear,$i pr.nc o.nc > /dev/null
+                        cdo eca_rx5day o.nc rx5day_${i}.nc > /dev/null
+                        cdo selvar,highest_five_day_precipitation_amount_per_time_period rx5day_${i}.nc o_${i}.nc > /dev/null
+                        rm o.nc
+                        echo $i
+                done
+                #rm rx5day_*.nc
+                cdo cat o_*.nc output.nc
+                rm o_*.nc
+
+
+            </code> 
+        </pre>
+    </p>
+</article>
+
+<article id="reference">
+    <h2> Referências
+    </h2>
+
+</article>
+</body>

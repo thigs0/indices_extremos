@@ -48,7 +48,7 @@
 
 <pre>
     <code>
-        time             Temperatura  > 31.40
+        time             Temperatura  >31.40
         17744 1990-01-01  28.672290     0
         17745 1990-01-02  29.424267     0
         17746 1990-01-03  28.125400     0
@@ -74,8 +74,11 @@
 <p>
     <pre>
         <code class="bash">
-            #tmax.nc é o arquivo de referencia
-            cdo -ydrunpctl,90,5 tmax.nc -ydrunmin,5 tmax.nc -ydrunmax,5 tmax.nc tmax_percentile.nc
+            #tmax_ref.nc é o arquivo de referencia
+            #tmax é o arquivo que queremos calcular o índice
+
+            cdo -ydrunpctl,90,5 tmax_ref.nc -ydrunmin,5 tmax_ref.nc -ydrunmax,5 tmax_ref.nc tmax_percentile.nc
+            cdo eca_tx90p tmax.nc tmax_percentile.nc tx90p.nc
         </code> 
     </pre>
 </p>

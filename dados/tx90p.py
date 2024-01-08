@@ -22,8 +22,6 @@ fig.add_trace(go.Scatter(x=x, y=y, mode="lines", name="Curva normal"))
 fig.add_trace(go.Scatter(x=[np.percentile(df["0"], 90), np.percentile(df["0"], 90)], y=[0, max(y)],
                          mode='lines', name='Percntil 90 dos dados', line=dict(color='red', dash='dash')))
 
-print(np.percentile(df["0"], 90))
-
 fig.update_layout(
     sliders=[{
         'active': 0,

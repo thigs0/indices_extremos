@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TXx</title>
+</head>
+<body>
+<article id="CWD">
+    <h3> Dias consecutivos úmidos  </h3>
+
+    <p>
+        Climate wet days (CWD) são definidos com a quantidade de dias anual com a precipitação maior que 
+        1 mm. Normalmente a quantidade de dias é 5.
+    </p>
+
+    <p>Exemplo:
+        
+        <p>
+            Avaliando dados de 1990 até 2020, verificamos se a precipitação foi superior à 1 milimetro ou não.
+        </p>
+
+        <p>
+            <pre>
+                <code>
+                            time     Precipitação   >1
+                    17744 1990-01-01  0.672290     0
+                    17745 1990-01-02  0.424267     0
+                    17746 1990-01-03  3.125400     1
+                    17747 1990-01-04  0.000000     0
+                    17748 1990-01-05  0.000000     0
+                    ...          ...        ...     ...
+                    14452 2020-07-27  0.835293     0
+                    14453 2020-07-28  1.510147     1
+                    14454 2020-07-29  1.000000     0
+                    14455 2020-07-30  8.467209     1
+                    14456 2020-07-31  0.621449     0
+                    
+                    [11170 rows x 2 columns]
+                    
+                </code>
+            </pre>
+        </p>
+
+    </p> 
+
+    <p>
+        <pre>
+            <code class="bash">
+                #pr.nc é o arquivo de precipitação diária
+                #output.nc é o nome do aquivo de saída que o código retorna
+    
+                year=$(cdo showyear pr.nc| head -n -1)
+
+                for i in $year
+                do
+                        cdo selyear,$i pr.nc o.nc > /dev/null
+                        cdo eca_cwd o.nc cwd_${i}.nc > /dev/null
+                        cdo selvar,consecutive_wet_days_index_per_time_period cwd_${i}.nc o_${i}.nc > /dev/null
+                        rm o.nc
+                done
+                rm cwd_*.nc
+                cdo cat o_*.nc output.nc
+                rm o_*.nc
+
+            </code> 
+        </pre>
+    </p>
+    
+</article>
+
+<article id="reference">
+    <h2> Referências
+    </h2>
+
+</article>
+</body>
